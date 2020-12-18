@@ -37,14 +37,14 @@ I've tested Sideloadly for Windows which worked fine.
 5. Go to [releases](), download the `.IPA` file and drag it to the Sideloadly window.
 6. Enter your Apple ID you'll be using to sign the app.<br>
 If you don't want to enter your own Apple ID into a random tool, you can use 'no2fa.cecemel@gmail.com'. This is an Apple ID without two-factor authentication (2FA) that I made specifically for this purpose. Send me a message on Discord (Cecemel#6035) to get the password.<br>
-<img src="./images/installation1.png" height="150">
+<img src="./images/installation1.png" height="150"><br>
 7. Click Start and enter the password for the Apple ID.
    - If you're using an account with 2FA, you'll get a message on an Apple device. Confirm it, it'll give you a 6-digit code that you'll need to enter in Sideloadly.
 8. Wait a few seconds. If 'Done.' appears, the app is installed. I had to reboot my iPhone before it showed up on the homescreen.
 9. Before you're able to start the app, you'll need to 'Trust' the Apple ID you used to sign the app. Go to Settings --> General on your device and scroll down.<br>
-<img src="./images/installation2.png" height="250">
+<img src="./images/installation2.png" height="250"><br>
 10. Go to 'Device Management', press the email address you entered previously, press the 'Trust ...' button and confirm.<br>
-<img src="./images/installation3.png" height="250">
+<img src="./images/installation3.png" height="250"><br>
 11. That's it, you should now be able to run the app.
 
 </details>
