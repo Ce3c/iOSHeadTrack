@@ -83,17 +83,21 @@ class ViewController: UIViewController {
         connection.send(content: content, completion: NWConnection.SendCompletion.contentProcessed(({ (error) in if false {}})))
     }
     @objc func dim() {
-        self.currentBrightness = UIScreen.main.brightness
-        UIScreen.main.brightness = CGFloat(0.0)
-        rateStepper.isUserInteractionEnabled = false
-        enableSwitch.isUserInteractionEnabled = false
-        dimmed = true
+        if !dimmed {
+            self.currentBrightness = UIScreen.main.brightness
+            UIScreen.main.brightness = CGFloat(0.0)
+            rateStepper.isUserInteractionEnabled = false
+            enableSwitch.isUserInteractionEnabled = false
+            dimmed = true
+        }
     }
     func unDim() {
-        UIScreen.main.brightness = currentBrightness
-        rateStepper.isUserInteractionEnabled = true
-        enableSwitch.isUserInteractionEnabled = true
-        dimmed = false
+        if dimmed {
+            UIScreen.main.brightness = currentBrightness
+            rateStepper.isUserInteractionEnabled = true
+            enableSwitch.isUserInteractionEnabled = true
+            dimmed = false
+        }
     }
     
     @IBAction func ipEdited() {
@@ -137,7 +141,6 @@ class ViewController: UIViewController {
             activeState.textColor = UIColor.secondaryLabel
             timer.invalidate()
             timer = nil
-            unDim()
         }
     }
 }
