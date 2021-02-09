@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     var enabled = false
     var dimmed = false
     var motion = CMMotionManager()
+    var headphoneMotion = CMHeadphoneMotionManager()
     var connection: NWConnection?
     let rates = [1, 5, 10, 15, 20, 33, 40, 50, 66, 100]
     let intervals = [1.000, 0.200, 0.100, 0.065, 0.050, 0.030, 0.025, 0.020, 0.015, 0.010]
@@ -21,6 +22,7 @@ class ViewController: UIViewController {
     var timer: Timer!
     
     @IBOutlet weak var activeState: UILabel!
+    @IBOutlet weak var deviceSelector: UISegmentedControl!
     @IBOutlet weak var ipAddress: UITextField!
     @IBOutlet weak var port: UITextField!
     @IBOutlet weak var rateDisplay: UILabel!
@@ -33,17 +35,31 @@ class ViewController: UIViewController {
     func startStream(hostUDP: NWEndpoint.Host, portUDP: NWEndpoint.Port) {
         self.connection = NWConnection(host: hostUDP, port: portUDP, using: .udp)
         self.connection?.start(queue: .global())
-        motion.deviceMotionUpdateInterval = intervals[Int(rateStepper.value)]
-        motion.startDeviceMotionUpdates(to: OperationQueue.current!){ (data, error) in
-            guard let trueData = data else {
-                return
+        if deviceSelector.selectedSegmentIndex == 0 {
+            motion.deviceMotionUpdateInterval = intervals[Int(rateStepper.value)]
+            motion.startDeviceMotionUpdates(to: OperationQueue.current!){ (data, error) in
+                guard let trueData = data else {
+                    return
+                }
+                let udpMessage = self.radToDegData(value: 0) + self.radToDegData(value: 0) + self.radToDegData(value: 0) + self.radToDegData(value: trueData.attitude.yaw) + self.radToDegData(value: trueData.attitude.pitch) + self.radToDegData(value: trueData.attitude.roll)
+                self.sendUDP(udpMessage)
             }
-            let udpMessage = self.radToDegData(value: 0) + self.radToDegData(value: 0) + self.radToDegData(value: 0) + self.radToDegData(value: trueData.attitude.yaw) + self.radToDegData(value: trueData.attitude.pitch) + self.radToDegData(value: trueData.attitude.roll)
-            self.sendUDP(udpMessage)
+        } else {
+            headphoneMotion.startDeviceMotionUpdates(to: OperationQueue.current!){ (data, error) in
+                guard let trueData = data else {
+                    return
+                }
+                let udpMessage = self.radToDegData(value: 0) + self.radToDegData(value: 0) + self.radToDegData(value: 0) + self.radToDegData(value: trueData.attitude.yaw) + self.radToDegData(value: trueData.attitude.pitch) + self.radToDegData(value: trueData.attitude.roll)
+                self.sendUDP(udpMessage)
+            }
         }
     }
     func stopStream() {
-        motion.stopDeviceMotionUpdates()
+        if deviceSelector.selectedSegmentIndex == 0 {
+            motion.stopDeviceMotionUpdates()
+        } else {
+            headphoneMotion.stopDeviceMotionUpdates()
+        }
         self.connection?.cancel()
         self.connection = nil
     }
@@ -100,6 +116,15 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func deviceSelectorChanged() {
+        if deviceSelector.selectedSegmentIndex == 0 {
+            rateDisplay.isHidden = false
+            rateStepper.isHidden = false
+        } else {
+            rateDisplay.isHidden = true
+            rateStepper.isHidden = true
+        }
+    }
     @IBAction func ipEdited() {
         defaults.setValue(ipAddress.text, forKey: "ipAddress")
     }
