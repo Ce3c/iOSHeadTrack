@@ -36,7 +36,7 @@ I've tested Sideloadly for Windows which worked fine.<br>
 4. Start Sideloadly, you should see a bunch of letters/numbers in the 'Device' dropdown if your device is plugged in.
 5. Go to [releases](https://github.com/Cecemel20/iOSHeadTrack/releases), download the `.IPA` file and drag it to the Sideloadly window.
 6. Enter your Apple ID you'll be using to sign the app.<br>
-If you don't want to enter your own Apple ID into a random tool, you can use 'no2fa.cecemel@gmail.com'. This is an Apple ID without two-factor authentication (2FA) that I made specifically for this purpose. Send me a message on Discord (Cecemel#6035) to get the password.<br>
+If you don't want to enter your own Apple ID into a random tool, you can use 'no2fa.cecemel@gmail.com'. This is an Apple ID without two-factor authentication (2FA) that I made specifically for this purpose. Send me a message on Discord (Cedricdb#6035) to get the password.<br>
 <img src="./images/installation1.png" height="150"><br>
 7. Click Start and enter the password for the Apple ID.
    - If you're using an account with 2FA, you'll get a message on an Apple device. Confirm it, it'll give you a 6-digit code that you'll need to enter in Sideloadly.
